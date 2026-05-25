@@ -1,0 +1,479 @@
+/* ===================================================================
+   CONTACT SECTION — Glassmorphism + Neon Tech Aesthetic
+   =================================================================== */
+
+.contact {
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Ambient gradient orbs ──────────────────────────────────────── */
+.contact::before,
+.contact::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(140px);
+  opacity: 0.08;
+}
+
+.contact::before {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #7c3aed, transparent 70%);
+  bottom: -150px;
+  left: -200px;
+}
+
+.contact::after {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #06b6d4, transparent 70%);
+  top: 50px;
+  right: -250px;
+}
+
+/* ── Grid / circuit background ──────────────────────────────────── */
+.gridBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 100%);
+}
+
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Inner Layout ───────────────────────────────────────────────── */
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 8px;
+  max-width: 440px;
+}
+
+/* ── Contact Info ───────────────────────────────────────────────── */
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.contactItem:hover {
+  color: var(--text-primary);
+}
+
+.contactIcon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--icon-bg, rgba(124, 58, 237, 0.08));
+  border: 1px solid var(--icon-border, rgba(124, 58, 237, 0.2));
+  border-radius: 12px;
+  color: #a855f7;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.contactItem:hover .contactIcon {
+  transform: scale(1.08) rotate(-5deg);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.25);
+  background: var(--icon-bg-hover, rgba(124, 58, 237, 0.15));
+}
+
+/* ── Socials ────────────────────────────────────────────────────── */
+.socials {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.socialLink {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--social-bg, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--social-border, rgba(255, 255, 255, 0.08));
+  border-radius: 14px;
+  font-size: 1.4rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.socialLink:hover {
+  background: var(--social-bg-hover, rgba(255, 255, 255, 0.08));
+  border-color: rgba(124, 58, 237, 0.4);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+}
+
+/* ===================================================================
+   RIGHT SIDE - FORM CARD
+   =================================================================== */
+.rightWrapper {
+  position: relative;
+  z-index: 1;
+  perspective: 900px;
+}
+
+/* Ambient glow behind card */
+.cardGlow {
+  position: absolute;
+  inset: -10px;
+  border-radius: 36px;
+  background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
+  filter: blur(40px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Spinning gradient border */
+.cardBorderGlow {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 26px;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.6;
+  transition: opacity 0.45s ease;
+}
+
+.cardBorderSpinner {
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, #7c3aed, #06b6d4, #a855f7, #3b82f6, #7c3aed);
+  animation: borderSpin 6s linear infinite;
+}
+
+.cardBorderGlow::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  background: var(--border-fill, #0a0a16);
+  border-radius: 24px;
+}
+
+@keyframes borderSpin {
+  to { transform: rotate(360deg); }
+}
+
+.rightWrapper:hover .cardBorderGlow {
+  opacity: 1;
+}
+
+/* The actual glass card */
+.right {
+  position: relative;
+  background: var(--card-bg, rgba(10, 10, 22, 0.72));
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.07));
+  border-radius: 24px;
+  padding: 48px;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  overflow: hidden;
+}
+
+.rightWrapper:hover .right {
+  border-color: rgba(124, 58, 237, 0.25);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+/* Circuit overlay inside card */
+.circuitOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.3;
+  transition: opacity 0.5s ease;
+}
+
+.rightWrapper:hover .circuitOverlay {
+  opacity: 0.7;
+}
+
+/* ── Form Fields ────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.input {
+  background: var(--input-bg, rgba(255, 255, 255, 0.025)) !important;
+  border: 1px solid var(--input-border, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.3s ease !important;
+}
+
+.input:focus {
+  background: var(--input-bg-focus, rgba(124, 58, 237, 0.05)) !important;
+  border-color: #a855f7 !important;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1) !important;
+}
+
+.textarea {
+  resize: none;
+  height: 140px;
+  padding-top: 22px;
+}
+
+/* ── Submit Button ──────────────────────────────────────────────── */
+.submitBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 24px rgba(124, 58, 237, 0.35);
+  margin-top: 12px;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+.submitBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.submitBtn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.55);
+}
+
+.submitBtn:hover::before {
+  opacity: 1;
+}
+
+.submitBtn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.submitBtn svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.submitBtn:hover svg {
+  transform: translateX(4px) translateY(-2px);
+}
+
+/* Ripple */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  animation: rippleAnim 0.7s linear;
+  pointer-events: none;
+}
+
+@keyframes rippleAnim {
+  from { transform: scale(0); opacity: 0.7; }
+  to   { transform: scale(4); opacity: 0; }
+}
+
+/* ── Success State ──────────────────────────────────────────────── */
+.successState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  height: 100%;
+}
+
+.successIconWrapper {
+  width: 80px;
+  height: 80px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+}
+
+.successIcon {
+  font-size: 2.5rem;
+}
+
+.successState h3 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.successState p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width: 992px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+
+  .left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .contactInfo {
+    align-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+  .right {
+    padding: 32px 24px;
+  }
+  .contactItem {
+    font-size: 0.9rem;
+  }
+}
+
+/* ===================================================================
+   LIGHT MODE OVERRIDES
+   =================================================================== */
+:global([data-theme="light"]) .contact {
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-border: rgba(0, 0, 0, 0.09);
+  --border-fill: #f4f4f8;
+  --circuit-line: rgba(124, 58, 237, 0.06);
+  
+  --icon-bg: rgba(124, 58, 237, 0.06);
+  --icon-border: rgba(124, 58, 237, 0.15);
+  --icon-bg-hover: rgba(124, 58, 237, 0.12);
+  
+  --social-bg: rgba(0, 0, 0, 0.02);
+  --social-border: rgba(0, 0, 0, 0.08);
+  --social-bg-hover: rgba(0, 0, 0, 0.05);
+
+  --input-bg: rgba(0, 0, 0, 0.02);
+  --input-border: rgba(0, 0, 0, 0.1);
+  --input-bg-focus: rgba(124, 58, 237, 0.03);
+}
+
+:global([data-theme="light"]) .right {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.06),
+    0 1px 4px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:global([data-theme="light"]) .rightWrapper:hover .right {
+  border-color: rgba(124, 58, 237, 0.2);
+  box-shadow:
+    0 16px 48px rgba(124, 58, 237, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+:global([data-theme="light"]) .gridBg {
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+}
+
+:global([data-theme="light"]) .contact::before,
+:global([data-theme="light"]) .contact::after {
+  opacity: 0.07;
+}
+
+:global([data-theme="light"]) .cardGlow {
+  opacity: 0.5;
+}

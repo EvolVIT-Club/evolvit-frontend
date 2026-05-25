@@ -1,0 +1,292 @@
+/* ===================================================================
+   STATS (IMPACT) SECTION — Glassmorphism + Neon Tech Aesthetic
+   =================================================================== */
+
+.stats {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+  padding: 80px 0;
+}
+
+/* ── Ambient background orbs ────────────────────────────────────── */
+.bgGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(124, 58, 237, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Grid / circuit background ──────────────────────────────────── */
+.gridBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 0%, transparent 100%);
+}
+
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Section header ─────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: 72px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================================================
+   GRID LAYOUT
+   =================================================================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================================================
+   CARD WRAPPER
+   =================================================================== */
+.cardWrapper {
+  position: relative;
+  z-index: 1;
+  perspective: 900px;
+}
+
+.cardGlow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 20px;
+  filter: blur(28px);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+.cardWrapper:hover .cardGlow {
+  opacity: 1;
+}
+
+.cardBorderGlow {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 18px;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cardBorderGlow::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, #7c3aed, #06b6d4, #a855f7, #3b82f6, #7c3aed);
+  animation: borderSpin 4s linear infinite;
+}
+
+.cardBorderGlow::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  background: var(--border-fill, #0a0a16);
+  border-radius: 16px;
+}
+
+@keyframes borderSpin {
+  to { transform: rotate(360deg); }
+}
+
+.cardWrapper:hover .cardBorderGlow {
+  opacity: 1;
+}
+
+/* ===================================================================
+   STAT CARD
+   =================================================================== */
+.statCard {
+  position: relative;
+  padding: 36px 24px;
+  text-align: center;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--card-bg, rgba(10, 10, 22, 0.72));
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.07));
+  border-radius: 16px;
+  height: 100%;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cardWrapper:hover .statCard {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.circuitOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cardWrapper:hover .circuitOverlay {
+  opacity: 1;
+}
+
+/* ── Corner accents ─────────────────────────────────────────────── */
+.cornerAccent {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.cornerTL { top: 8px; left: 8px; }
+.cornerTR { top: 8px; right: 8px; }
+.cornerBL { bottom: 8px; left: 8px; }
+.cornerBR { bottom: 8px; right: 8px; }
+
+.cardWrapper:hover .cornerAccent {
+  opacity: 0.9;
+}
+
+/* ===================================================================
+   CONTENT
+   =================================================================== */
+.statNumber {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
+  background-clip: text !important;
+  line-height: 1;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  position: relative;
+  z-index: 2;
+}
+
+.suffix {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.statLabel {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.statDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .statCard {
+    padding: 28px 20px;
+  }
+}
+
+/* ===================================================================
+   LIGHT MODE OVERRIDES
+   =================================================================== */
+:global([data-theme="light"]) .stats {
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --border-fill: #f8f8fb;
+  --circuit-line: rgba(124, 58, 237, 0.06);
+}
+
+:global([data-theme="light"]) .statCard {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:global([data-theme="light"]) .cardWrapper:hover .statCard {
+  border-color: rgba(124, 58, 237, 0.22);
+  box-shadow:
+    0 16px 48px rgba(124, 58, 237, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+:global([data-theme="light"]) .gridBg {
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+}
+
+:global([data-theme="light"]) .bgGlow {
+  opacity: 0.3;
+}
+
+:global([data-theme="light"]) .cornerAccent {
+  opacity: 0.4;
+}
+
+:global([data-theme="light"]) .cardWrapper:hover .cornerAccent {
+  opacity: 0.85;
+}

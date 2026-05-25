@@ -1,0 +1,840 @@
+/* ===================================================================
+   EVENTS SECTION — Glassmorphism + Neon Tech Aesthetic
+   =================================================================== */
+
+/* ── Section base ───────────────────────────────────────────────── */
+.events {
+  position: relative;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+/* Ambient gradient orbs */
+.events::before,
+.events::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(130px);
+  opacity: 0.09;
+}
+
+.events::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, #7c3aed, transparent 70%);
+  top: -150px;
+  right: -250px;
+}
+
+.events::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #06b6d4, transparent 70%);
+  bottom: 80px;
+  left: -250px;
+}
+
+/* ── Grid / circuit background ──────────────────────────────────── */
+.gridBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 100%);
+}
+
+/* Noise texture overlay */
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Section header ─────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+  position: relative;
+  z-index: 1;
+}
+
+.header :global(.section-subtitle) {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.upcomingActions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.primaryRegisterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f59e0b, #ec4899);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 16px 40px rgba(236, 72, 153, 0.22);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.primaryRegisterButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 48px rgba(236, 72, 153, 0.28);
+  filter: brightness(1.04);
+}
+
+.upcomingHint {
+  text-align: center;
+  color: var(--text-secondary);
+  margin: 0 auto 80px;
+  max-width: 620px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== GRID ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.gridUpcoming {
+  grid-template-columns: minmax(0, 560px);
+  justify-content: center;
+}
+
+/* ── Section divider ────────────────────────────────────────────── */
+.sectionDivider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.25), rgba(6, 182, 212, 0.2), transparent);
+  position: relative;
+  z-index: 1;
+}
+
+.sectionDivider::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: #7c3aed;
+  border-radius: 50%;
+  margin: -3px auto 0;
+  box-shadow: 0 0 12px #7c3aed;
+}
+
+/* ── Empty state ────────────────────────────────────────────────── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 80px;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.emptyIcon {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+
+/* ===================================================================
+   CARD WRAPPER
+   =================================================================== */
+.cardWrapper {
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+  height: 100%;
+  perspective: 900px;
+}
+
+/* ── Outer ambient glow ─────────────────────────────────────────── */
+.cardGlow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 26px;
+  filter: blur(36px);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+/* ── Animated spinning gradient border ──────────────────────────── */
+.cardBorderGlow {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 22px;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.cardBorderGlow::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, #7c3aed, #06b6d4, #a855f7, #3b82f6, #7c3aed);
+  animation: borderSpin 4s linear infinite;
+}
+
+.cardBorderGlow::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  background: var(--border-fill, #0d0d14);
+  border-radius: 20px;
+}
+
+@keyframes borderSpin {
+  to { transform: rotate(360deg); }
+}
+
+.cardWrapper:hover .cardBorderGlow {
+  opacity: 1;
+}
+
+/* ===================================================================
+   CARD
+   =================================================================== */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--card-bg, rgba(10, 10, 22, 0.72));
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.07));
+  box-shadow:
+    0 4px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  z-index: 1;
+}
+
+.cardWrapper:hover .card {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* ── Circuit / grid overlay inside card ────────────────────────── */
+.circuitOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px);
+  background-size: 32px 32px;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cardWrapper:hover .circuitOverlay {
+  opacity: 1;
+}
+
+/* ── Corner accents ─────────────────────────────────────────────── */
+.cornerAccent {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  opacity: 0.5;
+}
+
+.cornerTL { top: 10px; left: 10px; }
+.cornerBR { bottom: 10px; right: 10px; }
+
+.cardWrapper:hover .cornerAccent {
+  opacity: 1;
+}
+
+/* ── Scanning laser ─────────────────────────────────────────────── */
+.cardHighlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 5;
+}
+
+/* ===================================================================
+   CARD TOP
+   =================================================================== */
+.cardTop {
+  padding: 26px 26px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.topLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Category badge ─────────────────────────────────────────────── */
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  border: 1px solid;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.categoryBadge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+  transition: left 0.55s ease;
+}
+
+.cardWrapper:hover .categoryBadge::after {
+  left: 100%;
+}
+
+.techIcon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.85;
+}
+
+/* ── Status badge ───────────────────────────────────────────────── */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.statusBadge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: block;
+}
+
+.badgeUpcoming {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #f59e0b;
+}
+
+.badgeUpcoming::before {
+  background: #f59e0b;
+  box-shadow: 0 0 6px #f59e0b;
+  animation: pulseDot 1.5s ease-in-out infinite;
+}
+
+.badgeClosed {
+  background: rgba(71, 85, 105, 0.15);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  color: #64748b;
+}
+
+.badgeClosed::before {
+  background: #64748b;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ── Emoji container ────────────────────────────────────────────── */
+.emojiContainer {
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+}
+
+.emojiInner {
+  font-size: 1.75rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardWrapper:hover .emojiContainer {
+  transform: rotate(-8deg) scale(1.1);
+}
+
+/* ===================================================================
+   CARD BODY
+   =================================================================== */
+.cardBody {
+  padding: 4px 26px 20px;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.cardDate {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.cardTitle {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+
+.cardDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.72;
+  max-width: 44ch;
+  opacity: 0.85;
+}
+
+/* ── Countdown ──────────────────────────────────────────────────── */
+.countdown {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--countdown-bg, rgba(255, 255, 255, 0.025));
+  border: 1px solid var(--countdown-border, rgba(255, 255, 255, 0.06));
+}
+
+.countdownLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.countdownUnits {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.countdownUnit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.countdownVal {
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  background: var(--countdown-val-bg, rgba(255, 255, 255, 0.04));
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 4px 10px;
+  min-width: 46px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.countdownUnitLabel {
+  display: none; /* shown via ::after below */
+}
+
+.countdownSep {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0 2px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+/* ── Registration bar ───────────────────────────────────────────── */
+.regBar {
+  margin-top: 16px;
+}
+
+.regBarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.regBarLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.regBarPct {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.regBarTrack {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--regbar-track, rgba(255, 255, 255, 0.06));
+  overflow: hidden;
+}
+
+.regBarFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.regBarFill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: inherit;
+  filter: brightness(1.4);
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* ===================================================================
+   CARD FOOTER
+   =================================================================== */
+.cardFooter {
+  padding: 20px 26px 26px;
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footerDivider {
+  height: 1px;
+  margin-bottom: 18px;
+}
+
+/* ── Ripple CTA button ──────────────────────────────────────────── */
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.15);
+}
+
+.ctaBtn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.ctaBtn svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ctaBtn:hover svg {
+  transform: translateX(3px);
+}
+
+.registerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 112px;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.registerButton:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== SECTION CTA ===== */
+.cta {
+  text-align: center;
+  margin-top: 48px;
+}
+
+/* Ripple effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  animation: rippleAnim 0.7s linear;
+  pointer-events: none;
+}
+
+@keyframes rippleAnim {
+  from { transform: scale(0); opacity: 0.7; }
+  to   { transform: scale(4); opacity: 0; }
+}
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardTitle {
+    font-size: 1.2rem;
+  }
+
+  .cardTop {
+    padding: 22px 22px 14px;
+  }
+
+  .cardBody {
+    padding: 4px 22px 16px;
+  }
+
+  .cardFooter {
+    padding: 16px 22px 22px;
+  }
+
+  .countdownVal {
+    font-size: 1.1rem;
+    padding: 3px 8px;
+    min-width: 38px;
+  }
+
+  .gridUpcoming {
+    grid-template-columns: 1fr;
+  }
+
+  .cardActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .registerButton {
+    width: 100%;
+  }
+}
+
+/* ===================================================================
+   LIGHT MODE OVERRIDES
+   All hardcoded dark values are remapped via local CSS variables
+   set on the [data-theme="light"] parent.
+   =================================================================== */
+:global([data-theme="light"]) .events {
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-border: rgba(0, 0, 0, 0.09);
+  --border-fill: #f4f4f8;
+  --circuit-line: rgba(124, 58, 237, 0.06);
+  --countdown-bg: rgba(124, 58, 237, 0.04);
+  --countdown-border: rgba(124, 58, 237, 0.12);
+  --countdown-val-bg: rgba(0, 0, 0, 0.04);
+  --regbar-track: rgba(0, 0, 0, 0.08);
+}
+
+/* Card: clean white glass surface */
+:global([data-theme="light"]) .card {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+}
+
+:global([data-theme="light"]) .cardWrapper:hover .card {
+  border-color: rgba(124, 58, 237, 0.25);
+  box-shadow:
+    0 16px 48px rgba(124, 58, 237, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Grid background: stronger purple lines in light mode */
+:global([data-theme="light"]) .gridBg {
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+}
+
+/* Section orb: slightly stronger in light */
+:global([data-theme="light"]) .events::before,
+:global([data-theme="light"]) .events::after {
+  opacity: 0.07;
+}
+
+/* Divider: more visible in light */
+:global([data-theme="light"]) .sectionDivider {
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.35), rgba(6, 182, 212, 0.25), transparent);
+}
+
+:global([data-theme="light"]) .sectionDivider::after {
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+}
+
+/* Category badge: lighten background, keep accent color */
+:global([data-theme="light"]) .categoryBadge {
+  backdrop-filter: blur(4px);
+}
+
+/* Status badges: adjust for light */
+:global([data-theme="light"]) .badgeClosed {
+  background: rgba(100, 116, 139, 0.1);
+  border-color: rgba(100, 116, 139, 0.25);
+  color: #475569;
+}
+
+:global([data-theme="light"]) .badgeUpcoming {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Emoji container */
+:global([data-theme="light"]) .emojiContainer {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Date text */
+:global([data-theme="light"]) .cardDate {
+  color: #64748b;
+}
+
+/* Description text */
+:global([data-theme="light"]) .cardDesc {
+  opacity: 0.75;
+}
+
+/* Footer divider */
+:global([data-theme="light"]) .footerDivider {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent) !important;
+}
+
+/* Countdown label */
+:global([data-theme="light"]) .countdownLabel {
+  opacity: 0.9;
+}
+
+/* Countdown separator colons */
+:global([data-theme="light"]) .countdownSep {
+  opacity: 0.6;
+}
+
+/* CTA button: unchanged (gradient looks fine in both modes) */
+
+/* Corner accents: slightly more visible */
+:global([data-theme="light"]) .cornerAccent {
+  opacity: 0.45;
+}
+
+:global([data-theme="light"]) .cardWrapper:hover .cornerAccent {
+  opacity: 0.85;
+}

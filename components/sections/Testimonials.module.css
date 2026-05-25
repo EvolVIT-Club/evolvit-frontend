@@ -1,0 +1,339 @@
+/* ===================================================================
+   TESTIMONIALS SECTION — Glassmorphism + Neon Tech Aesthetic
+   =================================================================== */
+
+.testimonials {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  padding: 80px 0;
+}
+
+/* ── Ambient background orbs ────────────────────────────────────── */
+.bgGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Grid / circuit background ──────────────────────────────────── */
+.gridBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 0%, transparent 100%);
+}
+
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Section header ─────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 1;
+}
+
+.sliderWrap {
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================================================
+   CARD WRAPPER
+   =================================================================== */
+.cardWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.cardGlow {
+  position: absolute;
+  inset: -10px;
+  border-radius: 32px;
+  filter: blur(40px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.cardBorderGlow {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 26px;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.8;
+}
+
+.cardBorderGlow::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, #7c3aed, #06b6d4, #a855f7, #3b82f6, #7c3aed);
+  animation: borderSpin 6s linear infinite;
+}
+
+.cardBorderGlow::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  background: var(--border-fill, #0a0a16);
+  border-radius: 24px;
+}
+
+@keyframes borderSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===================================================================
+   QUOTE CARD
+   =================================================================== */
+.quote {
+  position: relative;
+  background: var(--card-bg, rgba(10, 10, 22, 0.72));
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.07));
+  border-radius: 24px;
+  padding: 56px 64px;
+  margin-bottom: 40px;
+  z-index: 1;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.circuitOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.8;
+}
+
+/* ── Corner accents ─────────────────────────────────────────────── */
+.cornerAccent {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.cornerTL { top: 12px; left: 12px; }
+.cornerTR { top: 12px; right: 12px; }
+.cornerBL { bottom: 12px; left: 12px; }
+.cornerBR { bottom: 12px; right: 12px; }
+
+/* ── Content ────────────────────────────────────────────────────── */
+.quoteIcon {
+  font-size: 6rem;
+  line-height: 0.8;
+  opacity: 0.15;
+  font-family: Georgia, serif;
+  position: absolute;
+  top: 24px;
+  left: 36px;
+  z-index: 0;
+}
+
+.quoteText {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  line-height: 1.8;
+  font-weight: 400;
+  margin-bottom: 40px;
+  margin-top: 8px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.authorAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: white;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.authorName {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.authorRole {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ===================================================================
+   CONTROLS
+   =================================================================== */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.dots {
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-color);
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+
+.dotActive {
+  width: 32px;
+  border-radius: 4px;
+}
+
+.arrows {
+  display: flex;
+  gap: 12px;
+}
+
+.arrow {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.arrow:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width: 768px) {
+  .quote {
+    padding: 40px 32px;
+  }
+  .quoteIcon {
+    font-size: 4rem;
+    top: 16px;
+    left: 16px;
+  }
+  .quoteText {
+    font-size: 1.125rem;
+  }
+  .controls {
+    padding: 0 12px;
+  }
+}
+
+/* ===================================================================
+   LIGHT MODE OVERRIDES
+   =================================================================== */
+:global([data-theme="light"]) .testimonials {
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --border-fill: #f8f8fb;
+  --circuit-line: rgba(124, 58, 237, 0.06);
+}
+
+:global([data-theme="light"]) .quote {
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: rgba(124, 58, 237, 0.15);
+}
+
+:global([data-theme="light"]) .gridBg {
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+}
+
+:global([data-theme="light"]) .bgGlow {
+  opacity: 0.3;
+}
+
+:global([data-theme="light"]) .quoteText {
+  text-shadow: none;
+}
+
+:global([data-theme="light"]) .cornerAccent {
+  opacity: 0.5;
+}
+
+:global([data-theme="light"]) .arrow {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+:global([data-theme="light"]) .arrow:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
+}

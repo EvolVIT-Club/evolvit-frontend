@@ -1,0 +1,82 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999; /* Extremely high z-index to cover everything including navbars */
+  background: #05050A; /* Deep dark background matching the dark theme */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bgGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.hexSvg {
+  filter: drop-shadow(0 0 16px rgba(124, 58, 237, 0.4));
+  overflow: visible;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.text {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+}
+
+.logoText {
+  color: #ffffff;
+}
+
+.logoTextGradient {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.scanBar {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #06b6d4, #7c3aed, transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+}
+
+/* Ensure it looks good on light mode too if they happen to refresh in light mode */
+:global([data-theme="light"]) .preloader {
+  background: #ffffff;
+}
+
+:global([data-theme="light"]) .bgGlow {
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 60%);
+}
+
+:global([data-theme="light"]) .logoText {
+  color: #1a1a2e;
+}

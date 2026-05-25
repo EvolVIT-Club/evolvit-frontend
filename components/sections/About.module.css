@@ -1,0 +1,383 @@
+/* ===================================================================
+   ABOUT SECTION — Glassmorphism + Neon Tech Aesthetic
+   =================================================================== */
+
+.about {
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0;
+}
+
+/* ── Ambient background orbs ────────────────────────────────────── */
+.about::before,
+.about::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(160px);
+  opacity: 0.08;
+  z-index: 0;
+}
+
+.about::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, #7c3aed, transparent 70%);
+  top: -100px;
+  right: -200px;
+}
+
+.about::after {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #06b6d4, transparent 70%);
+  bottom: 0px;
+  left: -150px;
+}
+
+/* ── Grid / circuit background ──────────────────────────────────── */
+.gridBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+}
+
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===================================================================
+   LAYOUT
+   =================================================================== */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================================================
+   LEFT COLUMN
+   =================================================================== */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contentCard {
+  position: relative;
+  padding: 32px;
+  background: var(--card-bg, rgba(10, 10, 22, 0.5));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.05));
+  border-radius: 20px;
+  margin-top: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.accentLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #7c3aed, #06b6d4);
+}
+
+.description {
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  position: relative;
+  z-index: 1;
+}
+
+.pillGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.techPill {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--pill-bg, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--pill-border, rgba(255, 255, 255, 0.08));
+  padding: 8px 16px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.techPill:hover {
+  background: rgba(124, 58, 237, 0.15);
+  border-color: rgba(124, 58, 237, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+/* ===================================================================
+   RIGHT COLUMN / FEATURE CARDS
+   =================================================================== */
+.cardGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ── Card Wrapper ───────────────────────────────────────────────── */
+.cardWrapper {
+  position: relative;
+  z-index: 1;
+  perspective: 900px;
+}
+
+.cardGlow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 20px;
+  filter: blur(28px);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+.cardWrapper:hover .cardGlow {
+  opacity: 1;
+}
+
+.cardBorderGlow {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 18px;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cardBorderGlow::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, #7c3aed, #06b6d4, #a855f7, #3b82f6, #7c3aed);
+  animation: borderSpin 4s linear infinite;
+}
+
+.cardBorderGlow::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  background: var(--border-fill, #0a0a16);
+  border-radius: 16px;
+}
+
+@keyframes borderSpin {
+  to { transform: rotate(360deg); }
+}
+
+.cardWrapper:hover .cardBorderGlow {
+  opacity: 1;
+}
+
+/* ── Feature Card ───────────────────────────────────────────────── */
+.featureCard {
+  position: relative;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  cursor: default;
+  background: var(--card-bg, rgba(10, 10, 22, 0.72));
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.07));
+  border-radius: 16px;
+  height: 100%;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cardWrapper:hover .featureCard {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.circuitOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cardWrapper:hover .circuitOverlay,
+.contentCard:hover .circuitOverlay {
+  opacity: 1;
+}
+
+.contentCard:hover .circuitOverlay {
+  opacity: 0.5;
+}
+
+/* ── Corner accents ─────────────────────────────────────────────── */
+.cornerAccent {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.cornerTL { top: 8px; left: 8px; }
+.cornerTR { top: 8px; right: 8px; }
+.cornerBL { bottom: 8px; left: 8px; }
+.cornerBR { bottom: 8px; right: 8px; }
+
+.cardWrapper:hover .cornerAccent {
+  opacity: 0.9;
+}
+
+/* ── Content ────────────────────────────────────────────────────── */
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cardWrapper:hover .iconWrapper {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.cardIcon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  position: relative;
+  z-index: 1;
+}
+
+.cardDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+  .leftCol {
+    align-items: center;
+    text-align: center;
+  }
+  .header :global(.section-subtitle) {
+    margin: 0 auto;
+  }
+  .pillGroup {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================================================================
+   LIGHT MODE OVERRIDES
+   =================================================================== */
+:global([data-theme="light"]) .about {
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --border-fill: #f8f8fb;
+  --circuit-line: rgba(124, 58, 237, 0.06);
+  --pill-bg: rgba(0, 0, 0, 0.03);
+  --pill-border: rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme="light"]) .featureCard,
+:global([data-theme="light"]) .contentCard {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:global([data-theme="light"]) .cardWrapper:hover .featureCard {
+  border-color: rgba(124, 58, 237, 0.22);
+  box-shadow:
+    0 16px 48px rgba(124, 58, 237, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+:global([data-theme="light"]) .gridBg {
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+}
+
+:global([data-theme="light"]) .about::before,
+:global([data-theme="light"]) .about::after {
+  opacity: 0.06;
+}
+
+:global([data-theme="light"]) .cornerAccent {
+  opacity: 0.4;
+}
+
+:global([data-theme="light"]) .cardWrapper:hover .cornerAccent {
+  opacity: 0.85;
+}

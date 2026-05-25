@@ -1,0 +1,518 @@
+/* ===================================================================
+   EVENTS PREVIEW SECTION — Glassmorphism + Neon Tech Aesthetic
+   Mirrors the Events page card system for design consistency.
+   =================================================================== */
+
+/* ── Section base ───────────────────────────────────────────────── */
+.eventsPreview {
+  position: relative;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+/* Ambient gradient orbs */
+.eventsPreview::before,
+.eventsPreview::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(130px);
+  opacity: 0.08;
+}
+
+.eventsPreview::before {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #7c3aed, transparent 70%);
+  top: -120px;
+  right: -200px;
+}
+
+.eventsPreview::after {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #3b82f6, transparent 70%);
+  bottom: 60px;
+  left: -200px;
+}
+
+/* ── Grid / circuit background ──────────────────────────────────── */
+.gridBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 100%);
+}
+
+/* Noise texture overlay */
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Section header ─────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+  position: relative;
+  z-index: 1;
+}
+
+.header :global(.section-subtitle) {
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* ── Grid ───────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================================================
+   CARD WRAPPER
+   =================================================================== */
+.cardWrapper {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  perspective: 900px;
+}
+
+/* ── Outer ambient glow ─────────────────────────────────────────── */
+.cardGlow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 26px;
+  filter: blur(36px);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+/* ── Spinning gradient border ───────────────────────────────────── */
+.cardBorderGlow {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 22px;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.cardBorderGlow::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, #7c3aed, #06b6d4, #a855f7, #3b82f6, #7c3aed);
+  animation: borderSpin 4s linear infinite;
+}
+
+.cardBorderGlow::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  background: var(--border-fill, #0a0a16);
+  border-radius: 20px;
+}
+
+@keyframes borderSpin {
+  to { transform: rotate(360deg); }
+}
+
+.cardWrapper:hover .cardBorderGlow {
+  opacity: 1;
+}
+
+/* ===================================================================
+   CARD
+   =================================================================== */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--card-bg, rgba(10, 10, 22, 0.72));
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.07));
+  box-shadow:
+    0 4px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  z-index: 1;
+}
+
+.cardWrapper:hover .card {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* ── Circuit grid overlay ───────────────────────────────────────── */
+.circuitOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--circuit-line, rgba(255, 255, 255, 0.015)) 1px, transparent 1px);
+  background-size: 32px 32px;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cardWrapper:hover .circuitOverlay {
+  opacity: 1;
+}
+
+/* ── Corner accents ─────────────────────────────────────────────── */
+.cornerAccent {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
+}
+
+.cornerTL { top: 10px; left: 10px; }
+.cornerBR { bottom: 10px; right: 10px; }
+
+.cardWrapper:hover .cornerAccent {
+  opacity: 1;
+}
+
+/* ── Scanning laser ─────────────────────────────────────────────── */
+.scanLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 5;
+}
+
+/* ===================================================================
+   CARD TOP
+   =================================================================== */
+.cardTop {
+  padding: 24px 24px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Category badge ─────────────────────────────────────────────── */
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.67rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  border: 1px solid;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.categoryBadge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+  transition: left 0.55s ease;
+}
+
+.cardWrapper:hover .categoryBadge::after {
+  left: 100%;
+}
+
+.techIcon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── Emoji container ─────────────────────────────────────────────── */
+.emojiContainer {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: var(--emoji-bg, rgba(255, 255, 255, 0.04));
+  border: 1px solid;
+  font-size: 1.65rem;
+  line-height: 1;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.emojiContainer span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardWrapper:hover .emojiContainer {
+  transform: rotate(-8deg) scale(1.1);
+}
+
+/* ===================================================================
+   CARD BODY
+   =================================================================== */
+.cardBody {
+  padding: 4px 24px 18px;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.cardDate {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  margin-bottom: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.cardTitle {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+
+.cardDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+/* ===================================================================
+   CARD FOOTER
+   =================================================================== */
+.cardFooter {
+  padding: 18px 24px 24px;
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.footerDivider {
+  height: 1px;
+  margin-bottom: 16px;
+}
+
+/* ── CTA button ─────────────────────────────────────────────────── */
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-2px) scale(1.05);
+  filter: brightness(1.15);
+}
+
+.ctaBtn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.ctaBtn svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ctaBtn:hover svg {
+  transform: translateX(4px);
+}
+
+/* ── View All CTA ───────────────────────────────────────────────── */
+.ctaWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.viewAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 30px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  border-radius: 999px;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 24px rgba(124, 58, 237, 0.35);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, filter 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.viewAllBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.viewAllBtn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 36px rgba(124, 58, 237, 0.55);
+  filter: brightness(1.1);
+}
+
+.viewAllBtn:hover::before {
+  opacity: 1;
+}
+
+.viewAllBtn svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.viewAllBtn:hover svg {
+  transform: translateX(4px);
+}
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardTop {
+    padding: 20px 20px 12px;
+  }
+
+  .cardBody {
+    padding: 4px 20px 14px;
+  }
+
+  .cardFooter {
+    padding: 14px 20px 20px;
+  }
+
+  .cardTitle {
+    font-size: 1.15rem;
+  }
+}
+
+/* ===================================================================
+   LIGHT MODE OVERRIDES
+   =================================================================== */
+:global([data-theme="light"]) .eventsPreview {
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-border: rgba(0, 0, 0, 0.09);
+  --border-fill: #f4f4f8;
+  --circuit-line: rgba(124, 58, 237, 0.06);
+  --emoji-bg: rgba(0, 0, 0, 0.03);
+}
+
+:global([data-theme="light"]) .card {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.07),
+    0 1px 4px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:global([data-theme="light"]) .cardWrapper:hover .card {
+  border-color: rgba(124, 58, 237, 0.22);
+  box-shadow:
+    0 16px 48px rgba(124, 58, 237, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+:global([data-theme="light"]) .gridBg {
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+}
+
+:global([data-theme="light"]) .eventsPreview::before,
+:global([data-theme="light"]) .eventsPreview::after {
+  opacity: 0.07;
+}
+
+:global([data-theme="light"]) .emojiContainer {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme="light"]) .footerDivider {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.07), transparent) !important;
+}
+
+:global([data-theme="light"]) .cornerAccent {
+  opacity: 0.4;
+}
+
+:global([data-theme="light"]) .cardWrapper:hover .cornerAccent {
+  opacity: 0.85;
+}
+
+:global([data-theme="light"]) .cardDate {
+  color: #64748b;
+}
+
+:global([data-theme="light"]) .cardDesc {
+  opacity: 0.75;
+}
