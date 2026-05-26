@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://evolvit-backend1.onrender.com/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api',
 });
 
 // Har request se pehle token automatically add ho jaaye
