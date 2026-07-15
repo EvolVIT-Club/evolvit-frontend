@@ -400,69 +400,69 @@ export default function Events() {
     fetchEvents();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: '100px', color: 'var(--text-muted)' }}>
-        Loading events...
-      </div>
-    );
-  }
-
   return (
     <section id="events" className={styles.events} ref={ref}>
       <div className={styles.gridBg} />
       <div className={styles.noiseOverlay} />
       <div className="container">
-        <motion.div className={styles.header}
-          initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
-          <span className="section-label">Future Forward</span>
-          <h2 className="section-title"><span className="gradient-text">Upcoming</span> Events</h2>
-          <p className="section-subtitle">Register for the next event, then pick from all upcoming opportunities.</p>
-        </motion.div>
-
-        {upcomingEvents.length > 0 ? (
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '100px', color: 'var(--text-muted)' }}>
+            Loading events...
+          </div>
+        ) : (
           <>
-            <div className={styles.upcomingActions}>
-              <button type="button" className={styles.primaryRegisterButton}
-                onClick={() => setShowUpcomingEvents((prev) => !prev)}>
-                {showUpcomingEvents ? 'Hide Upcoming Events' : 'Register for Next Event'}
-              </button>
-            </div>
-            {showUpcomingEvents ? (
-              <motion.div className={styles.grid} variants={container} initial="hidden" animate="show"
-                style={{ marginBottom: '88px' }}>
-                {upcomingEvents.map((event) => (
-                  <EventCard key={event.title} event={event} onSelect={setSelectedEvent} isUpcoming />
-                ))}
-              </motion.div>
+            <motion.div className={styles.header}
+              initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
+              <span className="section-label">Future Forward</span>
+              <h2 className="section-title"><span className="gradient-text">Upcoming</span> Events</h2>
+              <p className="section-subtitle">Register for the next event, then pick from all upcoming opportunities.</p>
+            </motion.div>
+
+            {upcomingEvents.length > 0 ? (
+              <>
+                <div className={styles.upcomingActions}>
+                  <button type="button" className={styles.primaryRegisterButton}
+                    onClick={() => setShowUpcomingEvents((prev) => !prev)}>
+                    {showUpcomingEvents ? 'Hide Upcoming Events' : 'Register for Next Event'}
+                  </button>
+                </div>
+                {showUpcomingEvents ? (
+                  <motion.div className={styles.grid} variants={container} initial="hidden" animate="show"
+                    style={{ marginBottom: '88px' }}>
+                    {upcomingEvents.map((event) => (
+                      <EventCard key={event.title} event={event} onSelect={setSelectedEvent} isUpcoming />
+                    ))}
+                  </motion.div>
+                ) : (
+                  <div className={styles.upcomingHint}>
+                    <p>Click the button above to view all upcoming events and register for the one you want.</p>
+                  </div>
+                )}
+              </>
             ) : (
-              <div className={styles.upcomingHint}>
-                <p>Click the button above to view all upcoming events and register for the one you want.</p>
+              <div className={styles.emptyState}>
+                <span className={styles.emptyIcon}>📡</span>
+                <p>No upcoming events currently scheduled. Stay tuned!</p>
               </div>
             )}
+
+            <div className={styles.sectionDivider} />
+
+            <motion.div className={styles.header}
+              initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.15 }} style={{ marginTop: '48px' }}>
+              <span className="section-label">What We&apos;ve Done</span>
+              <h2 className="section-title">Past <span className="gradient-text">Experiences</span></h2>
+              <p className="section-subtitle">From hackathons to industrial visits, we create learning experiences that leave a mark.</p>
+            </motion.div>
+
+            <motion.div className={styles.grid} variants={container} initial="hidden" animate="show">
+              {pastEvents.map((event) => (
+                <EventCard key={event.title} event={event} onSelect={setSelectedEvent} />
+              ))}
+            </motion.div>
           </>
-        ) : (
-          <div className={styles.emptyState}>
-            <span className={styles.emptyIcon}>📡</span>
-            <p>No upcoming events currently scheduled. Stay tuned!</p>
-          </div>
         )}
-
-        <div className={styles.sectionDivider} />
-
-        <motion.div className={styles.header}
-          initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.15 }} style={{ marginTop: '48px' }}>
-          <span className="section-label">What We&apos;ve Done</span>
-          <h2 className="section-title">Past <span className="gradient-text">Experiences</span></h2>
-          <p className="section-subtitle">From hackathons to industrial visits, we create learning experiences that leave a mark.</p>
-        </motion.div>
-
-        <motion.div className={styles.grid} variants={container} initial="hidden" animate="show">
-          {pastEvents.map((event) => (
-            <EventCard key={event.title} event={event} onSelect={setSelectedEvent} />
-          ))}
-        </motion.div>
       </div>
       <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
     </section>
