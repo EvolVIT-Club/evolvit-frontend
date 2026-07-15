@@ -376,7 +376,7 @@ function EventCard({
 
 export default function Events() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true });
   const [selectedEvent, setSelectedEvent] = useState<EvolvitEvent | null>(null);
   const [showUpcomingEvents, setShowUpcomingEvents] = useState(false);
   const [pastEvents, setPastEvents] = useState<EvolvitEvent[]>([]);
@@ -452,7 +452,7 @@ export default function Events() {
 
         <motion.div className={styles.header}
           initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.15 }} style={{ marginTop: '80px' }}>
+          transition={{ duration: 0.7, delay: 0.15 }} style={{ marginTop: '48px' }}>
           <span className="section-label">What We&apos;ve Done</span>
           <h2 className="section-title">Past <span className="gradient-text">Experiences</span></h2>
           <p className="section-subtitle">From hackathons to industrial visits, we create learning experiences that leave a mark.</p>
