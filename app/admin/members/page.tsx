@@ -56,7 +56,7 @@ export default function AdminMembers() {
       setEditingId(null);
       setShowForm(false);
       fetchMembers();
-    } catch (err) {
+    } catch {
       alert('Error saving member');
     } finally {
       setLoading(false);
@@ -93,7 +93,7 @@ export default function AdminMembers() {
       });
       alert('Photo uploaded!');
       fetchMembers();
-    } catch (err) {
+    } catch {
       alert('Upload failed');
     }
   };

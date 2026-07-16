@@ -53,7 +53,7 @@ export default function AdminEvents() {
       setEditingId(null);
       setShowForm(false);
       fetchEvents();
-    } catch (err) {
+    } catch {
       alert('Error saving event');
     } finally {
       setLoading(false);
@@ -93,7 +93,7 @@ export default function AdminEvents() {
     });
     alert('Photos uploaded!');
     fetchEvents();
-  } catch (err) {
+  } catch {
     alert('Upload failed');
   }
 };

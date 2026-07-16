@@ -218,8 +218,8 @@ export default function Team() {
     api.get('/members')
       .then(({ data }) => {
         if (Array.isArray(data) && data.length > 0) {
-          setTeam(data.filter((m: any) => m.category === 'team'));
-          setFaculty(data.filter((m: any) => m.category === 'faculty'));
+          setTeam(data.filter((m: Member) => m.category === 'team'));
+          setFaculty(data.filter((m: Member) => m.category === 'faculty'));
         }
       })
       .catch((err) => {

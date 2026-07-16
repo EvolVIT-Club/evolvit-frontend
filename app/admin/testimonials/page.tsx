@@ -43,7 +43,7 @@ export default function AdminTestimonials() {
       setEditingId(null);
       setShowForm(false);
       fetchTestimonials();
-    } catch (err) {
+    } catch {
       alert('Error saving testimonial');
     } finally {
       setLoading(false);
@@ -70,7 +70,7 @@ export default function AdminTestimonials() {
     });
     alert('Photo uploaded!');
     fetchTestimonials();
-  } catch (err) {
+  } catch {
     alert('Upload failed');
   }
 };

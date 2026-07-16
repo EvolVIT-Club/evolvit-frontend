@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Testimonials.module.css';
 import api from '@/utils/axios';
 
@@ -40,7 +40,6 @@ function CornerAccent({ color, position }: { color: string; position: 'tl' | 'tr
 
 export default function Testimonials() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
   const [active, setActive] = useState(0);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 

@@ -25,7 +25,7 @@ export default function AdminLogin() {
       localStorage.setItem('token', data.token);
       
       router.push('/admin/dashboard');
-    } catch (err) {
+    } catch {
       setError('Invalid credentials. Try again.');
     } finally {
       setLoading(false);

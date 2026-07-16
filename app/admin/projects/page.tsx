@@ -54,7 +54,7 @@ export default function AdminProjects() {
       setEditingId(null);
       setShowForm(false);
       fetchProjects();
-    } catch (err) {
+    } catch {
       alert('Error saving project');
     } finally {
       setLoading(false);

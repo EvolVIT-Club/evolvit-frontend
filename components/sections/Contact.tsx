@@ -55,7 +55,7 @@ export default function Contact() {
       setEmail('');
       setMessage('');
       setTimeout(() => setSubmitted(false), 4000);
-    } catch (err) {
+    } catch {
       alert('Something went wrong. Try again!');
     }
   };

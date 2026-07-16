@@ -26,7 +26,7 @@ export default function AdminSettings() {
       await api.put('/settings', form);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
-    } catch (err) {
+    } catch {
       alert('Error saving settings');
     } finally {
       setLoading(false);
