@@ -49,6 +49,7 @@ export default function AdminDashboard() {
             { label: 'Manage Projects', path: '/admin/projects', color: '#3b82f6' },
             { label: 'Manage Testimonials', path: '/admin/testimonials', color: '#f59e0b' },
             { label: 'Site Settings', path: '/admin/settings', color: '#06b6d4' },
+            { label: 'Manage Members', path: '/admin/members', color: '#10b981' },
           ].map((item) => (
             <div key={item.path}
               onClick={() => router.push(item.path)}
