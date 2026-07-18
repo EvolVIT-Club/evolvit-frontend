@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/utils/axios';
 
@@ -23,12 +23,12 @@ export default function AdminTestimonials() {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
-  const fetchTestimonials = async () => {
+  const fetchTestimonials = useCallback(async () => {
     const { data } = await api.get('/testimonials');
     setTestimonials(data);
-  };
+  }, []);
 
-  useEffect(() => { fetchTestimonials(); }, []);
+  useEffect(() => { fetchTestimonials(); }, [fetchTestimonials]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

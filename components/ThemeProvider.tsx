@@ -11,15 +11,16 @@ const ThemeContext = createContext<{ theme: Theme; toggleTheme: () => void }>({
 export const useTheme = () => useContext(ThemeContext);
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('evolvit-theme') as Theme | null) ?? 'dark';
+    }
+    return 'dark';
+  });
 
   useEffect(() => {
-    const saved = localStorage.getItem('evolvit-theme') as Theme | null;
-    if (saved) {
-      setTheme(saved);
-      document.documentElement.setAttribute('data-theme', saved);
-    }
-  }, []);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   const toggleTheme = () => {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
