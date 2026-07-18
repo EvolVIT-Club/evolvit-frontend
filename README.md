@@ -28,7 +28,7 @@
 
 ## 📖 Overview
 
-EvolVIT is a **full-stack web platform** for the EvolVIT tech club at VIT. The frontend is built with the latest **Next.js App Router**, delivering a blazing-fast, SEO-optimised, server-rendered experience for visitors — and a secure admin dashboard for club management.
+EvolVIT is a **community to bridge the gap between students and the tech industry** The frontend is built with the latest **Next.js App Router**, delivering a blazing-fast, SEO-optimised, server-rendered experience for visitors — and a secure admin dashboard for club management.
 
 **Key highlights:**
 
@@ -323,4 +323,4 @@ This project is maintained by **EvolVIT Club, VIT**. All rights reserved.
 
 ---
 
-<p align="center">Built with ❤️ by the EvolVIT development team</p>
+<p align="center">Built with ❤️ by the EvolVIT Tech team</p>
