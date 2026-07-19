@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://evolvit-backend-5ior.onrender.com/api" || 'http://localhost:5001/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://evolvit-backend-5ior.onrender.com/api',
 });
 
 // Har request se pehle token automatically add ho jaaye
@@ -14,4 +14,3 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
-// for production

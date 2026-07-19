@@ -15,7 +15,6 @@ export default function AboutPage() {
       <Navbar />
       <main style={{ paddingTop: '80px' }}>
         <About />
-        <Initiatives />
       </main>
       <Footer />
     </>

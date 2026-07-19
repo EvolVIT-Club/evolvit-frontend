@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import styles from './Contact.module.css';
+import api from '@/utils/axios';
 
 /* ── Ripple CTA ─────────────────────────────────────────────────── */
 function RippleButton({ children, disabled }: { children: React.ReactNode, disabled?: boolean }) {
@@ -45,11 +46,7 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await fetch('http://localhost:5001/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
-      });
+      await api.post('/contact', { name, email, message });
       setSubmitted(true);
       setName('');
       setEmail('');

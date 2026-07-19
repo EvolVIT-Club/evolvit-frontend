@@ -7,10 +7,11 @@ import api from '@/utils/axios';
 interface Member {
   _id: string;
   name: string;
+  category: 'team' | 'faculty';
   role: string;
+  domain: string;
   emoji: string;
   image?: string;
-  category: 'team' | 'faculty';
   instagram?: string;
   linkedin?: string;
   github?: string;
@@ -22,6 +23,7 @@ const emptyForm = {
   role: '',
   emoji: '👨‍💻',
   category: 'team' as 'team' | 'faculty',
+  domain: '',
   instagram: '',
   linkedin: '',
   github: '',
@@ -67,8 +69,9 @@ export default function AdminMembers() {
     setForm({
       name: member.name,
       role: member.role,
-      emoji: member.emoji || '👨‍💻',
       category: member.category,
+      domain: member.domain,
+      emoji: member.emoji || '👨‍💻',
       instagram: member.instagram || '',
       linkedin: member.linkedin || '',
       github: member.github || '',
@@ -146,13 +149,35 @@ export default function AdminMembers() {
                 </div>
                 <div>
                   <label style={labelStyle}>Role *</label>
-                  <input style={inputStyle} placeholder="e.g. President"
-                    value={form.role} onChange={e => setForm({ ...form, role: e.target.value })} required />
+                  <select style={inputStyle} value={form.role}
+                    onChange={e => setForm({ ...form, role: e.target.value })} required>
+                    <option value="">Select role…</option>
+                    <option value="Coordinator">Coordinator</option>
+                    <option value="Team-Lead">Team Lead</option>
+                    <option value="Co-Lead">Co-Lead</option>
+                    <option value="Core-Member">Core Member</option>
+                    <option value="General-Member">General Member</option>
+                  </select>
                 </div>
                 <div>
                   <label style={labelStyle}>Emoji</label>
                   <input style={inputStyle} placeholder="👨‍💻"
                     value={form.emoji} onChange={e => setForm({ ...form, emoji: e.target.value })} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Domain *</label>
+                  <select style={inputStyle} value={form.domain}
+                    onChange={e => setForm({ ...form, domain: e.target.value })} required>
+                    <option value="">Select domain…</option>
+                    <option value="Tech-Team">Tech Team</option>
+                    <option value="Design-Team">Design Team</option>
+                    <option value="Media-Team">Media Team</option>
+                    <option value="Event-Management-Team">Event Management Team</option>
+                    <option value="PR-Team">PR Team</option>
+                    <option value="Finance-Team">Finance Team</option>
+                    <option value="Operations-Team">Operations Team</option>
+                    <option value="Content-Team ">Content Team</option>
+                  </select>
                 </div>
                 <div>
                   <label style={labelStyle}>Category *</label>
