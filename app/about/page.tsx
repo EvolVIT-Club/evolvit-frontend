@@ -1,5 +1,4 @@
 import About from '@/components/sections/About';
-import Initiatives from '@/components/sections/Initiatives';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import type { Metadata } from 'next';
