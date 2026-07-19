@@ -11,16 +11,21 @@ const ThemeContext = createContext<{ theme: Theme; toggleTheme: () => void }>({
 export const useTheme = () => useContext(ThemeContext);
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem('evolvit-theme') as Theme | null) ?? 'dark';
-    }
-    return 'dark';
-  });
+  const [theme, setTheme] = useState<Theme>('dark'); // always 'dark' on SSR
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+    // Read real preference only after hydration
+    const stored = (localStorage.getItem('evolvit-theme') as Theme | null) ?? 'dark';
+    setTheme(stored);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
@@ -30,7 +35,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: mounted ? theme : 'dark', toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

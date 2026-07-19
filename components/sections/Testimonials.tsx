@@ -42,13 +42,28 @@ export default function Testimonials() {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [paused, setPaused] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     api.get('/testimonials').then(({ data }) => setTestimonials(data));
   }, []);
 
-  const prev = () => setActive((a) => (a - 1 + testimonials.length) % testimonials.length);
-  const next = () => setActive((a) => (a + 1) % testimonials.length);
+  // Auto-advance every 15 seconds
+  useEffect(() => {
+    if (testimonials.length <= 1 || paused) return;
+    intervalRef.current = setInterval(() => {
+      setActive((a) => (a + 1) % testimonials.length);
+    }, 15000);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [testimonials.length, paused, active]); // reset timer when active changes (manual nav)
+
+  const goTo = (index: number) => {
+    setActive(index);
+  };
+
+  const prev = () => goTo((active - 1 + testimonials.length) % testimonials.length);
+  const next = () => goTo((active + 1) % testimonials.length);
 
   if (testimonials.length === 0) return (
   <div style={{ textAlign: 'center', padding: '100px', color: 'var(--text-muted)' }}>
@@ -60,7 +75,13 @@ export default function Testimonials() {
   const color = COLORS[active % COLORS.length];
 
   return (
-    <section id="testimonials" className={styles.testimonials} ref={ref}>
+    <section
+      id="testimonials"
+      className={styles.testimonials}
+      ref={ref}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div className={styles.gridBg} />
       <div className={styles.noiseOverlay} />
       <div className={styles.bgGlow} />
@@ -134,10 +155,17 @@ export default function Testimonials() {
                 <button
                   key={i}
                   className={`${styles.dot} ${i === active ? styles.dotActive : ''}`}
-                  onClick={() => setActive(i)}
+                  onClick={() => goTo(i)}
                   aria-label={`Go to testimonial ${i + 1}`}
                   style={i === active ? { background: `linear-gradient(90deg, ${color}, ${color}99)` } : {}}
-                />
+                >
+                  {i === active && (
+                    <span
+                      className={styles.dotProgress}
+                      style={{ animationPlayState: paused ? 'paused' : 'running' }}
+                    />
+                  )}
+                </button>
               ))}
             </div>
             <div className={styles.arrows}>

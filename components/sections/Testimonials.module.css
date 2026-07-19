@@ -231,6 +231,7 @@
 }
 
 .dot {
+  position: relative;
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -239,11 +240,27 @@
   border: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
+  overflow: hidden;
 }
 
 .dotActive {
   width: 32px;
   border-radius: 4px;
+}
+
+/* Progress sweep that fills the active dot over 15s */
+.dotProgress {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.35);
+  transform-origin: left;
+  animation: dotSweep 15ms linear forwards;
+}
+
+@keyframes dotSweep {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }
 
 .arrows {
