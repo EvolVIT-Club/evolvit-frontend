@@ -46,9 +46,13 @@ function getDomainLabel(domainRaw?: string): string {
   if (!domainRaw) return 'General Team';
   const trimmed = domainRaw.trim();
   const map: Record<string, string> = {
+    'Coordinator': 'Coordinator',
+    'General-Secretary': 'General Secretary',
+    'General-Secrotary': 'General Secretary',
     'Tech-Team': 'Tech Team',
     'Design-Team': 'Design Team',
     'Media-Team': 'Media Team',
+    'Photography-Team': 'Photography Team',
     'Event-Management-Team': 'Event Management Team',
     'PR-Team': 'PR Team',
     'Finance-Team': 'Finance Team',
@@ -61,9 +65,12 @@ function getDomainLabel(domainRaw?: string): string {
 }
 
 const domainOrder = [
+  'Coordinator',
+  'General-Secretary',
   'Tech-Team',
   'Design-Team',
   'Media-Team',
+  'Photography-Team',
   'Event-Management-Team',
   'PR-Team',
   'Finance-Team',

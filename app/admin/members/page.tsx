@@ -153,6 +153,7 @@ export default function AdminMembers() {
                     onChange={e => setForm({ ...form, role: e.target.value })} required>
                     <option value="">Select role…</option>
                     <option value="Coordinator">Coordinator</option>
+                    <option value="General Secretary">General Secretary</option>
                     <option value="Team-Lead">Team Lead</option>
                     <option value="Co-Lead">Co-Lead</option>
                     <option value="Core-Member">Core Member</option>
@@ -169,14 +170,17 @@ export default function AdminMembers() {
                   <select style={inputStyle} value={form.domain}
                     onChange={e => setForm({ ...form, domain: e.target.value })} required>
                     <option value="">Select domain…</option>
+                    <option value="Coordinator">Coordinator</option>
+                    <option value="General-Secretary">General Secretary</option>
                     <option value="Tech-Team">Tech Team</option>
                     <option value="Design-Team">Design Team</option>
                     <option value="Media-Team">Media Team</option>
+                    <option value="Photography-Team">Photography Team</option>
                     <option value="Event-Management-Team">Event Management Team</option>
                     <option value="PR-Team">PR Team</option>
                     <option value="Finance-Team">Finance Team</option>
                     <option value="Operations-Team">Operations Team</option>
-                    <option value="Content-Team ">Content Team</option>
+                    <option value="Content-Team">Content Team</option>
                   </select>
                 </div>
                 <div>
