@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import { motion, useInView } from 'framer-motion';
 import styles from './Team.module.css';
 import api from '@/utils/axios';
@@ -9,6 +9,7 @@ interface Member {
   _id?: string;
   name: string;
   role: string;
+  domain?: string;
   emoji?: string;
   image?: string;
   category?: 'team' | 'faculty';
@@ -27,18 +28,47 @@ interface Member {
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 const staticTeam: Member[] = [
-  { name: 'Ayush Karan', role: 'President', emoji: '👨‍💻', image: '/team/ayush.jpeg', Instagram: '#', linkedin: 'http://www.linkedin.com/in/ayush-karan', github: 'https://github.com/Ayush07571' },
-  { name: 'Parth Gholap', role: 'President', emoji: '👨‍💻', image: '/team/parth.jpg', Instagram: '#', linkedin: 'https://www.linkedin.com/in/parth-gholap-474696325?utm_source=share_via&utm_content=profile&utm_medium=member_android', github: 'https://github.com/Parth-Gholap' },
-  { name: 'Ashish Raj', role: 'General Secretary', emoji: '👩‍🔬', image: '/team/ashish.jpg', Instagram: '#', linkedin: 'https://www.linkedin.com/in/ashish-raj-504760319?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', github: 'https://github.com/AshishRaj1901' },
-  { name: 'Abhiral Jain', role: 'Lead — Research and Dev', emoji: '👩‍🔬', image: '/team/abhiral.jpeg', Instagram: 'https://www.instagram.com/abhirallll___/', linkedin: 'https://www.linkedin.com/in/jainabhiral/', github: 'https://github.com/AbhiralJain07' },
-  { name: 'Rishi Dewangan', role: 'Lead — Technical', emoji: '🌐', image: '/team/rishi.jpeg', Instagram: 'https://www.instagram.com/rishidewangan493?igsh=Z21yc2xicjFpcGw0', linkedin: 'https://www.linkedin.com/in/rishi-dewangan-871399311/', github: 'https://github.com/rixhi-dwang' },
-  { name: 'Manasvi Kirkire', role: 'Lead — Design', emoji: '🎨', image: '/team/manasvi.jpg', Instagram: '#', linkedin: 'https://www.linkedin.com/in/manasvi-kirkire-7240a4324?utm_source=share_via&utm_content=profile&utm_medium=member_android', github: 'https://github.com/manasvi07kirkire' },
-  { name: 'Vaishnavi Singh', role: 'Lead — Media', emoji: '📷', image: '/team/vaishnavi.jpg', Instagram: 'https://www.instagram.com/vaish_x_singh?utm_source=qr&igsh=bGk5cXY4MWpweHNs', linkedin: 'https://www.linkedin.com/in/vaishnavi-singh-0a0709340?trk=contact-info', github: 'https://github.com/Vaishnavi2329' },
-  { name: 'Om Patel', role: 'Lead — Photography', emoji: '📸', image: '/team/om.jpeg', Instagram: 'https://www.instagram.com/ompatell_05?igsh=azJxcm1jNmEzMmdj', linkedin: 'https://www.linkedin.com/in/ompatel0511?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', github: 'https://github.com/Om5-patel' },
+  { name: 'Ayush Karan', role: 'President', domain: 'Tech-Team', emoji: '👨‍💻', image: '/team/ayush.jpeg', Instagram: '#', linkedin: 'http://www.linkedin.com/in/ayush-karan', github: 'https://github.com/Ayush07571' },
+  { name: 'Parth Gholap', role: 'President', domain: 'Tech-Team', emoji: '👨‍💻', image: '/team/parth.jpg', Instagram: '#', linkedin: 'https://www.linkedin.com/in/parth-gholap-474696325?utm_source=share_via&utm_content=profile&utm_medium=member_android', github: 'https://github.com/Parth-Gholap' },
+  { name: 'Ashish Raj', role: 'General Secretary', domain: 'Operations-Team', emoji: '👩‍🔬', image: '/team/ashish.jpg', Instagram: '#', linkedin: 'https://www.linkedin.com/in/ashish-raj-504760319?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', github: 'https://github.com/AshishRaj1901' },
+  { name: 'Abhiral Jain', role: 'Lead — Research and Dev', domain: 'Tech-Team', emoji: '👩‍🔬', image: '/team/abhiral.jpeg', Instagram: 'https://www.instagram.com/abhirallll___/', linkedin: 'https://www.linkedin.com/in/jainabhiral/', github: 'https://github.com/AbhiralJain07' },
+  { name: 'Rishi Dewangan', role: 'Lead — Technical', domain: 'Tech-Team', emoji: '🌐', image: '/team/rishi.jpeg', Instagram: 'https://www.instagram.com/rishidewangan493?igsh=Z21yc2xicjFpcGw0', linkedin: 'https://www.linkedin.com/in/rishi-dewangan-871399311/', github: 'https://github.com/rixhi-dwang' },
+  { name: 'Manasvi Kirkire', role: 'Lead — Design', domain: 'Design-Team', emoji: '🎨', image: '/team/manasvi.jpg', Instagram: '#', linkedin: 'https://www.linkedin.com/in/manasvi-kirkire-7240a4324?utm_source=share_via&utm_content=profile&utm_medium=member_android', github: 'https://github.com/manasvi07kirkire' },
+  { name: 'Vaishnavi Singh', role: 'Lead — Media', domain: 'Media-Team', emoji: '📷', image: '/team/vaishnavi.jpg', Instagram: 'https://www.instagram.com/vaish_x_singh?utm_source=qr&igsh=bGk5cXY4MWpweHNs', linkedin: 'https://www.linkedin.com/in/vaishnavi-singh-0a0709340?trk=contact-info', github: 'https://github.com/Vaishnavi2329' },
+  { name: 'Om Patel', role: 'Lead — Photography', domain: 'Media-Team', emoji: '📸', image: '/team/om.jpeg', Instagram: 'https://www.instagram.com/ompatell_05?igsh=azJxcm1jNmEzMmdj', linkedin: 'https://www.linkedin.com/in/ompatel0511?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', github: 'https://github.com/Om5-patel' },
 ];
 
 const staticFaculty: Member[] = [
   { name: 'NB Prakash', role: 'Faculty Coordinator', emoji: '👨‍🏫', image: '/team/nb_prakash.jpeg', linkedin: 'https://in.linkedin.com/in/dr-prakash-nattanmai-balasubramanian-03218033' },
+];
+
+function getDomainLabel(domainRaw?: string): string {
+  if (!domainRaw) return 'General Team';
+  const trimmed = domainRaw.trim();
+  const map: Record<string, string> = {
+    'Tech-Team': 'Tech Team',
+    'Design-Team': 'Design Team',
+    'Media-Team': 'Media Team',
+    'Event-Management-Team': 'Event Management Team',
+    'PR-Team': 'PR Team',
+    'Finance-Team': 'Finance Team',
+    'Operations-Team': 'Operations Team',
+    'Content-Team': 'Content Team',
+    'Content-Team ': 'Content Team',
+  };
+  if (map[trimmed]) return map[trimmed];
+  return trimmed.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+const domainOrder = [
+  'Tech-Team',
+  'Design-Team',
+  'Media-Team',
+  'Event-Management-Team',
+  'PR-Team',
+  'Finance-Team',
+  'Operations-Team',
+  'Content-Team',
 ];
 
 /* ── Colors ──────────────────────────────────────────────────────── */
@@ -240,8 +270,34 @@ export default function Team() {
 
   const coordinators = team.filter(isCoordinator);
   const initialVisible = coordinators.length > 0 ? coordinators : team.slice(0, 4);
-  const displayedTeam = showAllMembers ? team : initialVisible;
-  const hasMore = team.length > initialVisible.length;
+
+  // Group members by domain for expanded view
+  const domainGroups = useMemo(() => {
+    const map = new Map<string, Member[]>();
+
+    team.forEach((member) => {
+      const rawDomain = (member.domain || 'Tech-Team').trim();
+      if (!map.has(rawDomain)) {
+        map.set(rawDomain, []);
+      }
+      map.get(rawDomain)!.push(member);
+    });
+
+    const keysInOrder = Array.from(map.keys()).sort((a, b) => {
+      const ia = domainOrder.indexOf(a);
+      const ib = domainOrder.indexOf(b);
+      if (ia !== -1 && ib !== -1) return ia - ib;
+      if (ia !== -1) return -1;
+      if (ib !== -1) return 1;
+      return a.localeCompare(b);
+    });
+
+    return keysInOrder.map((key) => ({
+      key,
+      label: getDomainLabel(key),
+      members: map.get(key)!,
+    }));
+  }, [team]);
 
   return (
     <section id="team" className={styles.team} ref={ref}>
@@ -262,46 +318,86 @@ export default function Team() {
             Meet the <span className="gradient-text">Team</span>
           </h2>
           <p className="section-subtitle">
-            {showAllMembers ? 'The passionate minds behind EvolVIT who make it all happen.' : 'Coordinators and Leads of EvolVIT.'}
+            {showAllMembers
+              ? 'The passionate minds behind EvolVIT grouped by domain.'
+              : 'Coordinators and Leads of EvolVIT.'}
           </p>
         </motion.div>
 
-        {/* Main Team Grid */}
-        <div className={styles.grid}>
-          {displayedTeam.map((member, i) => (
-            <MemberCard key={member._id || member.name} member={member} index={i} inView={inView} />
-          ))}
-        </div>
+        {!showAllMembers ? (
+          <>
+            {/* Coordinators Section Label */}
+            <div className={styles.domainHeader}>
+              <div className={styles.domainLine} />
+              <span className={styles.domainTitleBadge}>Coordinators</span>
+              <div className={styles.domainLine} />
+            </div>
 
-        {/* Show More Button */}
-        {hasMore && (
-          <div className={styles.showMoreWrapper}>
-            <button
-              type="button"
-              className={styles.showMoreBtn}
-              onClick={() => setShowAllMembers((prev) => !prev)}
-            >
-              <span>{showAllMembers ? 'Show Less' : `Show More Team Members (${team.length - initialVisible.length} More)`}</span>
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                style={{
-                  transform: showAllMembers ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.3s ease',
-                }}
+            {/* Coordinators Grid */}
+            <div className={styles.grid}>
+              {initialVisible.map((member, i) => (
+                <MemberCard key={member._id || member.name} member={member} index={i} inView={inView} />
+              ))}
+            </div>
+
+            {/* Show More Button */}
+            <div className={styles.showMoreWrapper}>
+              <button
+                type="button"
+                className={styles.showMoreBtn}
+                onClick={() => setShowAllMembers(true)}
               >
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </button>
-          </div>
+                <span>Show More</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Grouped Domain Sections (Expanded View) */}
+            {domainGroups.map((group) => (
+              <div key={group.key} className={styles.domainSection}>
+                <div className={styles.domainHeader}>
+                  <div className={styles.domainLine} />
+                  <span className={styles.domainTitleBadge}>{group.label}</span>
+                  <div className={styles.domainLine} />
+                </div>
+                <div className={styles.grid}>
+                  {group.members.map((member, i) => (
+                    <MemberCard key={member._id || member.name} member={member} index={i} inView={true} />
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Show Less Button */}
+            <div className={styles.showMoreWrapper}>
+              <button
+                type="button"
+                className={styles.showMoreBtn}
+                onClick={() => setShowAllMembers(false)}
+              >
+                <span>Show Less</span>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  style={{ transform: 'rotate(180deg)', transition: 'transform 0.3s ease' }}
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+            </div>
+          </>
         )}
 
         {/* Divider */}
-        <div className="section-divider" style={{ margin: '100px 0' }} />
+        <div className="section-divider" style={{ margin: '80px 0' }} />
 
         {/* Faculty Header */}
         <motion.div
