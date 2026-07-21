@@ -213,6 +213,7 @@ export default function Team() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const [team, setTeam] = useState<Member[]>(staticTeam);
   const [faculty, setFaculty] = useState<Member[]>(staticFaculty);
+  const [showAllMembers, setShowAllMembers] = useState(false);
 
   useEffect(() => {
     api.get('/members')
@@ -226,6 +227,21 @@ export default function Team() {
         console.error('Failed to fetch members, using fallback data:', err);
       });
   }, []);
+
+  const isCoordinator = (m: Member) => {
+    const role = (m.role || '').toLowerCase();
+    return (
+      role.includes('coordinator') ||
+      role.includes('lead') ||
+      role.includes('president') ||
+      role.includes('secretary')
+    );
+  };
+
+  const coordinators = team.filter(isCoordinator);
+  const initialVisible = coordinators.length > 0 ? coordinators : team.slice(0, 4);
+  const displayedTeam = showAllMembers ? team : initialVisible;
+  const hasMore = team.length > initialVisible.length;
 
   return (
     <section id="team" className={styles.team} ref={ref}>
@@ -246,16 +262,43 @@ export default function Team() {
             Meet the <span className="gradient-text">Team</span>
           </h2>
           <p className="section-subtitle">
-            The passionate minds behind EvolVIT who make it all happen.
+            {showAllMembers ? 'The passionate minds behind EvolVIT who make it all happen.' : 'Coordinators and Leads of EvolVIT.'}
           </p>
         </motion.div>
 
         {/* Main Team Grid */}
         <div className={styles.grid}>
-          {team.map((member, i) => (
-            <MemberCard key={member.name} member={member} index={i} inView={inView} />
+          {displayedTeam.map((member, i) => (
+            <MemberCard key={member._id || member.name} member={member} index={i} inView={inView} />
           ))}
         </div>
+
+        {/* Show More Button */}
+        {hasMore && (
+          <div className={styles.showMoreWrapper}>
+            <button
+              type="button"
+              className={styles.showMoreBtn}
+              onClick={() => setShowAllMembers((prev) => !prev)}
+            >
+              <span>{showAllMembers ? 'Show Less' : `Show More Team Members (${team.length - initialVisible.length} More)`}</span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                style={{
+                  transform: showAllMembers ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease',
+                }}
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {/* Divider */}
         <div className="section-divider" style={{ margin: '100px 0' }} />
@@ -279,7 +322,7 @@ export default function Team() {
         {/* Faculty Grid */}
         <div className={styles.facultyGrid}>
           {faculty.map((member, i) => (
-            <MemberCard key={member.name} member={member} index={i} inView={true} />
+            <MemberCard key={member._id || member.name} member={member} index={i} inView={true} />
           ))}
         </div>
       </div>
